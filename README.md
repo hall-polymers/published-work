@@ -1,14 +1,7 @@
-# published_projects
+# Hall group publications and associated repositories
 
-## Group Members
-
-### Nick Liesen
-
-#### PGN systems
-[repo1](https://garbage1)
-[repo2](https://garbage2)
-[repo3](https://garbage3)
-
-### Kevin Shen
-[repo1](https://garbagea)
-[repo2](https://garbageb)
+| Year | Authors                                         | Title                                                                                                                    | Journal                                  | Volume/Pages     | Repositories |
+|------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------|------------------|--------------|
+| 2020 | Shen, K. -H.; Hall L. M.                        | Ion Conductivity and Correlations in Model Salt-Doped Polymers: Effects of Interaction Strength and Concentration        | Macromolecules                           | 53, 3655–3668    |              |
+| 2019 | Seo, Y.; Shen, K. -H.; Brown, J. R.; Hall L. M. | Role of Solvation on Diffusion of Ions in Diblock Copolymers: Understanding the Molecular Weight Effect through Modeling | Journal of the American Chemical Society | 141, 18455-18466 |              |
+| 2018 | Shen, K. -H.; Brown, J. R.; Hall L. M.          | Diffusion in Lamellae, Cylinders, and Double Gyroid Block Copolymer Nanostructures                                       | ACS Macro Letters                        | 7, 1092–1098     | [[constrained-random-walk]](https://github.com/hall-polymers/constrained-random-walk) [[LAMMPS-penetrant]](https://github.com/hall-polymers/constrained-random-walk)      |
