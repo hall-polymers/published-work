@@ -13,6 +13,6 @@
 
 - [lam_compOP.py](https://github.com/hall-polymers/published-work/blob/master/2017-prasad2017intradomain/lam_compop.py) – python script to calculate the compositional OP profile for lamellar structure
 
-- [lam_tenOP.py](https://github.com/hall-polymers/published-work/blob/master/2017-prasad2017intradomain/lam_tenop.py) – python script to calculate the tensor OP profile for lamellar structure
+- [lam_tenOP.py](https://github.com/hall-polymers/published-work/blob/master/2017-prasad2017intradomain/lam_tensorop.py) – python script to calculate the tensor OP profile for lamellar structure
 
 - [lam_vecOP.py](https://github.com/hall-polymers/published-work/blob/master/2017-prasad2017intradomain/lam_vecop.py) – python script to calculate the vector OP profile for lamellar structure
