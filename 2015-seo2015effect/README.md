@@ -1,4 +1,5 @@
-## To view this publication, click [here](https://pubs.acs.org/doi/full/10.1021/ma502309h). 
+## Effect of tapering on morphology and interfacial behavior of diblock copolymers from molecular dynamics simulations
+### To view this publication, click [here](https://pubs.acs.org/doi/full/10.1021/ma502309h). 
 
 - [denprof_bygroup.py](https://github.com/hall-polymers/published-work/blob/master/2015-seo2015effect/denprof_bygroup.py) – python script to obtain the density profiles (as a function of z) of lamellar structured tapered polymers as grouped by number fraction of one monomer
 
