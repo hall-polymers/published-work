@@ -4,4 +4,4 @@
 
 - [in.diblock](https://github.com/hall-polymers/published-work/blob/master/2016-levine2016effect/in.diblock) – LAMMPS script to equilibrate the system and obtain the outputs
 
-- [shapeanisotropy.py](https://github.com/hall-polymers/published-work/blob/master/2016-levine2016effect/in.diblock) – python script to calculate the shape anisotropy of polymers
+- [shapeanisotropy.py](https://github.com/hall-polymers/published-work/blob/master/2016-levine2016effect/shapeanisotropy.py) – python script to calculate the shape anisotropy of polymers
