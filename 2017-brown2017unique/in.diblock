@@ -1,0 +1,47 @@
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+units		lj
+atom_style	molecular
+read_restart	diblock.restart.10000000
+group		poly type 1 2
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+bond_coeff	2 30.0 1.5 1.0 1.0  
+special_bonds	fene               
+
+neighbor	1.0 bin
+neigh_modify	every 1 delay 0 check yes
+
+thermo_style 	custom step temp vol press ke pe ebond eimp evdwl ecoul elong
+thermo		100                                     
+timestep	0.0115
+
+pair_style 	lj/cut 2.5   
+pair_modify	shift yes
+pair_coeff      1 1 1.0 1.0
+pair_coeff      1 2 0.1 1.0
+pair_coeff      2 2 1.0 1.0
+
+dump		dump2 all custom 10000 equilMC.lammpstrj id mol type xs ys zs ix iy iz
+dump_modify	dump2 append yes
+
+restart		10000000 diblock.restart  
+
+fix             fix4 all bond/swap 10 0.5 1.3 598934
+
+variable	perform equal f_fix4[1]
+variable	attempt equal f_fix4[2]
+
+fix		fix5 all print 10000 "${perform} ${attempt}" file swap.txt       
+
+fix             fix2 all npt temp 1.0 1.0 1.0 x 0.0 0.0 10.0 y 0.0 0.0 10.0 z 0.0 0.0 10.0
+run		20000000    
