@@ -1,0 +1,120 @@
+#!/bin/bash
+
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+units		lj
+atom_style	molecular
+processors	* * 1
+
+read_restart	nano_eps3_2.restart.40000000
+#read_data	input.lammps
+change_box	all boundary m m fs
+group		graft1 id 1:30080:160
+group           graft2 id 30081:60160:160
+group           np1 id 60161
+group           np2 id 60162
+group           nano1 union graft1 np1
+group           nano2 union graft2 np2
+group           nanos union nano1 nano2
+group           NPs union np1 np2
+group		polymers type 2
+
+########## Soft pushoff##############
+#pair_style	hybrid/overlay soft 1.12246 lj/expand 2.5
+#pair_modify	shift yes
+#pair_coeff	1 1 none 
+#pair_coeff	1 2 soft 0.0
+#pair_coeff	1 3 none
+#pair_coeff     	2 2 soft 0.0
+#pair_coeff 	2 3 lj/expand 1.0 1.0 4.5
+#pair_coeff	3 3 lj/expand 1.0 1.0 9.0
+
+#variable        prefactor equal ramp(0,60)
+#fix            	softpushoff all adapt 1 pair soft a 1 2 v_prefactor
+#fix		softpushoff2 all adapt 1 pair soft a 2 2 v_prefactor
+#####################################
+
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+special_bonds	fene
+#angle_style	cosine
+#angle_coeff	1 5.0
+
+improper_style none
+
+neighbor	2.0 bin
+neigh_modify 	every 1 delay 10 check yes page 100000 one 10000
+neigh_modify	exclude type 1 3
+neigh_modify	exclude type 1 1 
+
+fix		wallE all wall/lj93 zlo EDGE 3.0 1.0 2.5 units box
+fix             NPwall NPs wall/lj93 zlo 4.5 3.0 1.0 2.5 units box
+fix 	       	grafts nanos rigid/nvt group 2 nano1 nano2 temp 1.0 1.0 1.0
+fix   		fix1 polymers nvt temp 1.0 1.0 1.0
+
+timestep	0.005
+
+thermo		1000
+thermo_style 	custom step temp press vol density ke pe ebond evdwl lx ly lz
+
+#############Soft Pushoff Simulation Only##################
+#fix             fix6 all balance 1000 0.9 shift xyz 10 1.1
+#dump		dump1 all custom 1000 pushoff.dump id mol type xs ys zs ix iy iz
+
+#reset_timestep	0
+#restart		10000 pushoff.restart
+
+#run		10000
+
+#unfix		softpushoff
+#unfix 		softpushoff2
+
+#undump		dump1
+
+#################Equilibration##################
+
+pair_style	hybrid/overlay lj/cut 2.5 lj/expand 2.5
+pair_modify	shift yes
+pair_coeff 	1 2 lj/cut 1.0 1.0
+pair_coeff	1 1 none
+pair_coeff	1 3 none
+pair_coeff	2 2 lj/cut 1.0 1.0
+pair_coeff	2 3 lj/expand 1.0 1.0 4.5
+pair_coeff	3 3 lj/expand 1.0 1.0 9.0 1.122462
+
+reset_timestep	0
+
+balance		0.9 shift xyz 10 1.1
+fix             fix5 all balance 5000 0.9 shift xyz 10 1.1
+
+#fix             fix2 polymers bond/swap 10 0.5 1.3 598934
+
+#variable	perform equal f_fix2[1]
+#variable	attempt equal f_fix2[2]
+
+#fix		fix3 polymers print 10000 "${perform} ${attempt}" file swap.txt
+
+restart		5000000 nano.restart
+
+dump		dump2 all custom 10000 equilnvt.dump id mol type xs ys zs ix iy iz
+dump_modify	dump2 append yes
+
+variable 	f file python.txt
+variable 	s equal next(f)
+dump 		dump3 all custom 10000 equilnvt_log.dump id mol type xs ys zs ix iy iz
+dump_modify 	dump3 every v_s
+dump_modify 	dump3 append yes
+
+run		60000000
+
+
+          
