@@ -17,7 +17,7 @@
 
 - [Fs_direct_avg.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/fs_direct_avg.py) - python script to calculate self-intermediate scattering function
 
-- [clustrautocorr.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/clustrautocorr.py) - python script to calculate ion cluster autocorrelation function
+- [clusterautocorr.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/clusterautocorr.py) - python script to calculate ion cluster autocorrelation function
 
 - [stretched_exponential_fit.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/stretched_exponential_fit.py) - python script to fit polymer self-intermediate scattering function and ion cluster autocorrelation function with a stretched exponential function to get polymer relaxation rate and cluster relaxation rate, respectively
 
