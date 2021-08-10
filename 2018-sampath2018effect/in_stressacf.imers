@@ -1,0 +1,100 @@
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+
+############## Nbb=7 Janani Sampath#################
+
+
+################ First run to push monomers/chains off each other####################
+
+
+units		lj
+atom_style	full
+
+read_restart	imers.restart.44040192 
+
+group  	   	ion type 4
+group		poly type 1 2 3
+group 		charged type 4 3
+
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+bond_coeff	2 30.0 1.5 1.0 1.0
+special_bonds	fene
+
+improper_style none
+
+
+neighbor	0.3 bin
+neigh_modify	every 1 delay 0 check yes
+
+compute		1 all pressure thermo_temp
+
+fix   		fix1 all nve 
+
+timestep	0.005
+
+thermo		1000
+thermo_style 	custom step temp press ke pe ebond eimp evdwl ecoul elong lx ly lz c_1[4]
+
+
+
+#################Equilibration and coulombics##################
+
+kspace_style	pppm/cg 1.0e-4
+
+pair_style 	hybrid lj/cut 2.5 lj/cut/coul/long 2.5 6.5
+pair_modify	shift yes  
+dielectric 	0.028
+pair_coeff 	* *  lj/cut 1.0 1.0 
+pair_coeff	*2 4 lj/cut 1.0 0.75 1.875
+pair_coeff	3 3 lj/cut/coul/long 1.0 1.0
+pair_coeff	3 4 lj/cut/coul/long 1.0 0.75 
+pair_coeff	4 4 lj/cut/coul/long 1.0 0.5 
+pair_coeff	6 6 lj/cut 2.0 1.0
+pair_coeff	3 6 lj/cut 1.5 1.0
+pair_coeff	4 6 lj/cut 4.5 0.75
+pair_coeff	4 5 lj/cut 1.0 0.75 1.875
+
+#################Predata run##################
+
+dump		dump1 all custom 50000 prerun.dump id mol type q xs ys zs ix iy iz 
+
+run		100000
+
+undump		dump1
+
+#################Stress_acf##################
+
+reset_timestep 0
+
+
+fix 		fix2 all ave/correlate 1 400000 400000 c_1[4] type auto ave running file stressacf_xy overwrite  
+
+fix 		fix3 all ave/correlate 1 400000 400000 c_1[5] type auto ave running file stressacf_yz overwrite
+
+fix 		fix4 all ave/correlate 1 400000 400000 c_1[6] type auto ave running file stressacf_zx overwrite 
+
+
+#################variable dumping##################
+
+
+variable f file python.txt
+variable s equal next(f)
+dump dump2 all custom 1000 dynamicnve.dump id mol type q xs ys zs ix iy iz
+dump_modify dump2 every v_s
+dump_modify dump2 append yes
+restart 1048576 imers.restart
+
+run	100139008
+
+
+          
