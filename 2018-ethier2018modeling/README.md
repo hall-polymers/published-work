@@ -1,4 +1,4 @@
-## Modeling Individual And Pairs Of Adsorbed Polymer-Grafted Nanoparticles: Structure And Entanglements
+## Modeling Individual And Pairs of Adsorbed Polymer-Grafted Nanoparticles: Structure And Entanglements
 ### To view this publication, click [here](https://pubs.rsc.org/en/content/articlelanding/2018/sm/c7sm02116j#!divAbstract). 
 
 - [input_2PGN6_160.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018modeling/input_2pgn6_160.py) -- generate a random initial configuration for two polymer-grafted nanoparticles (at a specified graft density and chain length) adsorbed on a surface
