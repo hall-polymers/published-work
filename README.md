@@ -15,7 +15,7 @@ Shen, K.-H.; Hall, L.M., *Macromolecules* 2020, 53, 10086−10096 (repositories:
 ## 2019
 
 - [Role of solvation on diffusion of ions in diblock copolymers: understanding the molecular weight effect through modeling](https://pubs.acs.org/doi/10.1021/jacs.9b07227)  
-Seo, Y.; Shen, K.-H.;Brown, J.R.; Hall, L.M., *Journal of the American Chemical Society* 2019, 141, 18455-18466 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2019-seo2019role), repositories: [lammps_bornsolv](https://github.com/hall-polymers/lammps_bornsolv), [pppmd/ion_dynamics](https://github.com/hall-polymers/pppmd/tree/development/kshen))
+Seo, Y.; Shen, K.-H.; Brown, J.R.; Hall, L.M., *Journal of the American Chemical Society* 2019, 141, 18455-18466 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2019-seo2019role), repositories: [lammps_bornsolv](https://github.com/hall-polymers/lammps_bornsolv), [pppmd/ion_dynamics](https://github.com/hall-polymers/pppmd/tree/development/kshen))
 
 - [Uniaxial Deformation and Crazing in Glassy Polymer-Grafted Nanoparticle Ultrathin Films](https://pubs.acs.org/doi/full/10.1021/acsnano.9b05001)
 Ethier, J.G.; Drummy, L. F.; Vaia, R. A.; Hall, L.M., *ACS  Nano* 2019, 13, 12816-12829 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2019-ethier2019uniaxial))
@@ -62,15 +62,15 @@ Seo, Y.; Brown, J.R.; Hall, L.M., *ACS Macro Letter*s 2017, 6, 375-380 ([scripts
 
 ## 2016
 
-- [Effect of sequence dispersity on morphology of tapered diblock copolymers from molecular dynamics simulations](https://hallgroup.engineering.osu.edu/node/168)  
+- [Effect of sequence dispersity on morphology of tapered diblock copolymers from molecular dynamics simulations](http://aip.scitation.org/doi/full/10.1063/1.4972141)  
 Levine, W.G.; Seo, Y.; Brown, J.R.; Hall, L.M., *The Journal of Chemical Physics* 2016, 145, 234907 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2016-levine2016effect))
 
-- [Fluids density functional theory and initializing molecular dynamics simulations of block copolymers](https://hallgroup.engineering.osu.edu/node/167)  
+- [Fluids density functional theory and initializing molecular dynamics simulations of block copolymers](http://scitation.aip.org/content/aip/journal/jcp/144/12/10.1063/1.4943982)  
 Brown, J.R.; Seo, Y.; Maula, T.A.D.; Hall, L.M., *The Journal of Chemical Physics* 2016, 144, 124904 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2016-brown2016fluids))
 
 ## 2015
 
-- [Effect of Tapering on Morphology and Interfacial Behavior of Diblock Copolymers from Molecular Dynamics Simulations](https://hallgroup.engineering.osu.edu/node/166)  
+- [Effect of Tapering on Morphology and Interfacial Behavior of Diblock Copolymers from Molecular Dynamics Simulations](http://pubs.acs.org/doi/full/10.1021/ma502309h)  
 Seo, Y.; Brown, J.R.; Hall, L.M., *Macromolecules* 2015, 48, 4974-4982 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2015-seo2015effect))
 
 
