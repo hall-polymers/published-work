@@ -7,7 +7,7 @@
 
 - [eecorr.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018structure/eecorr.py) - end to end vector autocorrelation calculation
 
-- [output_z1_test.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018structure/output_Z1_test.py) - python script to convert lammpstrj file to Z1 input files
+- [output_Z1_test.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018structure/output_z1_test.py) - python script to convert lammpstrj file to Z1 input files
 
 - [doublekinks.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018structure/doublekinks.py) - script to calculate the interparticle double kinks from Z1 output files
 
