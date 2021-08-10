@@ -1,0 +1,107 @@
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+
+##############Nbb=3 10%Na with nanoparticle Janani Sampath#################
+
+
+################ First run to push monomers/chains off each other####################
+
+units		lj
+atom_style	full
+
+
+read_restart	imers.restart.1048576
+
+group  	   	ion type 4
+group		poly type 1 2 3 5 6
+group 		charged type 4 3
+group		nano type 7
+
+#pair_style      hybrid/overlay soft 1.12246 lj/expand 1.12246
+#pair_coeff      *6 *6 soft 0.0
+#pair_coeff      *6 7 lj/expand 1.0 1.0 4.5
+#pair_coeff      7 7 none
+
+#variable       prefactor equal 60.0*elapsed/10000
+#fix            softpushoff all adapt 1 pair soft a *6 *6  v_prefactor
+fix	       fix1 nano setforce 0.0 0.0 0.0
+
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+bond_coeff	2 30.0 1.5 1.0 1.0
+special_bonds	fene
+
+change_box 	all x final -17.02018196 17.02018196 y final -17.02018196 17.17.02018196 z final -17.02018196 17.02018196
+
+
+neighbor	0.3 multi
+neigh_modify	every 1 delay 0 check yes
+
+
+fix   		fix2 all nvt temp 1.25 1.25 1.0
+
+
+timestep	0.005
+
+thermo		1000
+thermo_style 	custom step temp press ke pe ebond eimp evdwl ecoul elong lx ly lz
+
+#dump		dump1 all custom 1000 pushoff.dump id mol type q xs ys zs ix iy iz
+
+#restart		10000 imers.restart
+
+#run		10000
+
+#unfix		softpushoff
+
+#undump		dump1
+
+#################Equilibration and coulombics##################
+
+kspace_style	pppm/cg 1.0e-4
+kspace_modify	mesh 72 72 72
+
+
+pair_style 	hybrid lj/cut 2.5 lj/cut/coul/long 2.5 6.5 colloid 10.0
+pair_modify	shift yes  
+dielectric 	0.028
+pair_coeff 	* *  lj/cut 1.0 1.0
+pair_coeff	1 4 lj/cut 1.0 0.75 1.875
+pair_coeff	2 4 lj/cut 1.0 0.75 1.875
+pair_coeff	3 3 lj/cut/coul/long 1.0 1.0
+pair_coeff	3 4 lj/cut/coul/long 1.0 0.75 
+pair_coeff	4 4 lj/cut/coul/long 1.0 0.5 
+pair_coeff	6 6 lj/cut 2.0 1.0
+pair_coeff	3 6 lj/cut 1.5 1.0
+pair_coeff	4 6 lj/cut 4.5 0.75
+pair_coeff	4 5 lj/cut 1.0 0.75 1.875
+pair_coeff     *6 7 colloid 67.1 1.0 0.0 10.0 9.0
+pair_coeff      4 7 colloid 67.1 0.75 0.0 10.0 9.0
+pair_coeff      7 7  none 
+
+
+
+#unfix 		fix2
+
+#fix		fix3 all npt temp 1.25 1.25 1.0 iso 0 0 100
+
+
+reset_timestep 0
+
+variable f file python.txt
+variable s equal next(f)
+dump dump2 all custom 1000 equilnvt.lammpstrj id mol type q xs ys zs ix iy iz
+dump_modify dump2 every v_s
+dump_modify dump2 append yes
+restart 1048576 imers.restart
+
+run	100139008        
