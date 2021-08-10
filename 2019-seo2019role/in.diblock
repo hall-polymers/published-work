@@ -1,0 +1,82 @@
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+units		lj
+atom_style	full
+read_data	input.lammps
+group		poly type 1 2 3 4
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+bond_coeff	2 30.0 1.5 1.0 1.0
+special_bonds	fene              
+
+pair_style      soft 1.12246      
+pair_coeff      * * 0.0
+variable        prefactor equal 50.0*elapsed/1000        
+fix             fix0 all adapt 1 pair soft a * * v_prefactor
+
+neighbor	1.0 bin
+neigh_modify	every 1 delay 0 check yes
+
+fix		fix1 all nve
+
+thermo_style 	custom step temp vol press ke pe ebond eimp evdwl ecoul elong
+thermo		100               
+timestep	0.005 
+
+dump		dump1 all custom 1000 pushoff.lammpstrj id mol type q xs ys zs ix iy iz
+
+fix 		temp all temp/rescale 1 0.0 1.0 0.05 1.0
+run		5000
+
+unfix           fix0
+unfix		fix1
+unfix		temp
+undump		dump1
+
+kspace_style	pppm 1.0e-4 
+pair_style 	hybrid/overlay lj/cut 1.12246 bornsolv 5.0 coul/long 6.7 
+dielectric	0.2
+pair_modify	shift yes
+pair_coeff	* * lj/cut 1.0 1.0
+pair_coeff	1 2 lj/cut 2.0 1.0
+pair_coeff	1 3 bornsolv 0.5 1.0
+pair_coeff	1 4 bornsolv 0.5 1.0
+pair_coeff	3 3 coul/long
+pair_coeff	3 4 coul/long
+pair_coeff	4 4 coul/long
+
+dump		dump2 all custom 10000 equil.lammpstrj id mol type q xs ys zs ix iy iz
+dump_modify	dump2 append yes
+
+restart		10000 diblock1 diblock2 
+
+fix             fix2 all npt temp 1.0 1.0 0.5 x 5.0 5.0 5.0 y 5.0 5.0 5.0 z 5.0 5.0 5.0 couple xy
+fix 		temp all temp/rescale 1 0.0 1.0 0.05 1.0
+run		1000
+
+unfix		temp
+run		9999000
+
+##for log-spaced output after equilibration
+#unfix 		fix2
+#fix		fix3 all nvt temp 1.0 1.0 0.5
+#variable       f file Timesteps.txt
+#variable	f1 file Timesteps1.txt
+#variable       s equal next(f)
+#variable       z equal next(f1)
+#dump		dump3 all custom 10000 loglog.lammpstrj id mol type q xs ys zs ix iy iz
+#dump_modify    dump3 every v_s first yes
+#dump_modify	dump3 append yes
+
+#restart	v_z ion1 ion2 
+
+#run 		81000000   
