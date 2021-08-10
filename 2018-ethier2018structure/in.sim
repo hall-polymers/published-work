@@ -1,0 +1,85 @@
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+#!/bin/bash
+########## Setup, run Soft pushoff##############
+
+units		lj
+atom_style	molecular
+processors	* * 1
+
+#When you read a file with different num NPS, change the fix rigid below
+read_restart    sim4.restart.25000000
+change_box	all boundary p p fs
+group           pgnrgd1 id  1 2:30081:160
+group           pgnrgd2 id  30082 30083:60162:160
+group           pgnrgd3 id  60163 60164:90243:160
+group           pgnrgd4 id  90244 90245:120324:160
+group           pgnrgd5 id  120325 120326:150405:160
+group           pgnrgd6 id  150406 150407:180486:160
+group           pgnrgd7 id  180487 180488:210567:160
+group           pgnrgd8 id  210568 210569:240648:160
+group           pgnrgd9 id  240649 240650:270729:160
+group           pgnrgd10 id  270730 270731:300810:160
+group           pgnrgd11 id  300811 300812:330891:160
+group           pgnrgd12 id  330892 330893:360972:160
+
+
+group           pgnrgds union pgnrgd1 pgnrgd2 pgnrgd3 pgnrgd4 pgnrgd5 pgnrgd6 pgnrgd7 pgnrgd8 pgnrgd9 pgnrgd10 pgnrgd11 pgnrgd12
+group           nps type 3
+group		freemon type 2
+group           allmon type 1 2
+
+pair_style	hybrid lj/cut 2.5 lj/expand 2.5
+pair_modify	shift yes
+pair_coeff 	1 2 lj/cut 1.0 1.0
+pair_coeff	2 2 lj/cut 1.0 1.0
+pair_coeff	2 3 lj/expand 1.0 1.0 4.5
+#These won't matter, they are to be excluded
+pair_coeff	1 1 lj/cut 1.0 1.0
+pair_coeff	1 3 lj/cut 1.0 1.0
+pair_coeff      3 3 lj/cut 1.0 1.0
+#pair_coeff	3 3 lj/expand 1.0 1.0 9.0 1.122462
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+special_bonds	fene
+
+neighbor	0.8 multi
+comm_modify     mode multi
+neigh_modify	exclude type 1 1
+neigh_modify	exclude type 1 3 
+neigh_modify    exclude type 3 3
+
+fix		wallE allmon wall/lj93 zlo 0.0 3.5 1.0 2.5 units box 
+fix             NPwall nps wall/lj93 zlo 4.5 3.5 1.0 2.5 units box
+#TO CHANGE Number HNPS: change list here and change number of groups here:
+fix 	       	rigidnpt pgnrgds rigid/npt group 12 pgnrgd1 pgnrgd2 pgnrgd3 pgnrgd4 pgnrgd5 pgnrgd6 pgnrgd7 pgnrgd8 pgnrgd9 pgnrgd10 pgnrgd11 pgnrgd12 temp 1.0 1.0 1.0 x 0.0 0.0 100.0 y 0.0 0.0 100.0 couple xy
+fix   		nptmon freemon npt temp 1.0 1.0 1.0 x 0.0 0.0 100.0 y 0.0 0.0 100.0 couple xy
+
+timestep	0.01
+
+reset_timestep 0
+
+thermo		10000
+thermo_style 	custom step temp press lx ly lz
+
+restart		5000000 sim5.restart
+
+dump		dump2 all custom 50000 sim5.lammpstrj id mol type xu yu zu
+dump_modify     dump2 append yes
+
+variable        f file python.txt
+variable        s equal next(f)
+dump            dump3 all custom 10000 sim5_log.lammpstrj id mol type xu yu zu
+dump_modify     dump3 every v_s
+dump_modify     dump3 append yes
+
+run		25000000
