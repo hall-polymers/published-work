@@ -1,0 +1,52 @@
+#!/bin/bash
+
+#This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+# Langevin dynamic simulations with polymers fixed in position
+# Author: KS 09/2017
+
+###Initialization
+units		lj
+atom_style	atomic
+read_restart	diblock.restart.100000000
+group		poly type 1
+group		pen type 2
+
+neighbor	1.0 bin
+neigh_modify	every 1 delay 0 check yes
+neigh_modify exclude type 1 1
+
+thermo_style 	custom step temp vol press ke pe
+thermo		10000
+timestep	0.01
+
+###Force Field
+
+pair_style 	lj/cut 1.122462
+pair_modify	shift yes
+pair_coeff      * * 1.0 1.0
+
+###Equilibration
+fix             fix1 pen nve
+fix 	        fix2 pen langevin 1.0 1.0 0.01 39253
+
+dump		dump3 all custom 100000000 all.lammpstrj id type xs ys zs ix iy iz
+dump_modify	dump3 append no
+
+restart		50000000 diblock.restart         
+
+variable        f file Timesteps.txt
+variable        s equal next(f)
+dump		dump4 pen custom 10000 loglog.lammpstrj id type xs ys zs ix iy iz
+dump_modify     dump4 every v_s first yes
+dump_modify	dump4 append no
+
+run		132120600    
