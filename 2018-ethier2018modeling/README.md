@@ -1,7 +1,7 @@
 ## Modeling individual and pairs of adsorbed polymer-grafted nanoparticles: structure and entanglements
 ### To view this publication, click [here](https://pubs.rsc.org/en/content/articlelanding/2018/sm/c7sm02116j#!divAbstract). 
 
-- [input_2PGN6_160.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018modeling/input_2PGN6_160.py) -- generate a random initial configuration for two polymer-grafted nanoparticles (at a specified graft density and chain length) adsorbed on a surface
+- [input_2PGN6_160.py](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018modeling/input_2pgn6_160.py) -- generate a random initial configuration for two polymer-grafted nanoparticles (at a specified graft density and chain length) adsorbed on a surface
 
 - [in_nvt.nano](https://github.com/hall-polymers/published-work/blob/master/2018-ethier2018modeling/in_nvt.nano) -- LAMMPS input script to push off overlapped chains and equilibrate on a 9/3 LJ surface
 
