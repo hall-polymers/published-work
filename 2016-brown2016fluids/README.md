@@ -1,4 +1,4 @@
-## Fluids Density Functional Theory And Initializing Molecular Dynamics Simulations of Block Copolymers
+## Fluids Density Functional Theory and Initializing Molecular Dynamics Simulations of Block Copolymers
 ### To view this publication, click [here](https://aip.scitation.org/doi/full/10.1063/1.4943982). 
 
 - [cmsid.py](https://github.com/hall-polymers/published-work/blob/master/2016-brown2016fluids/cmsid.py) – python script to calculate the central mean squared internal distance of diblock copolymers
