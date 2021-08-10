@@ -2,9 +2,9 @@
 ## 2021
 
 - [The Influence of Spacer Composition on Thermomechanical Properties, Crystallinity, and Morphology in Ionene Segmented Copolymers](https://doi.org/10.1039/D1SM00501D)  
-Liesen, N.; Wang, M.; Taghavimehr, M.; Lee, J.S.; Montazami, R.; Hall, L.M.; Green, M.D., *Soft Matter 2021*, Recent Articles. ([scripts](https://github.com/hall-polymers/published-work/tree/master/2021-liesen2021influence))
+Liesen, N.; Wang, M.; Taghavimehr, M.; Lee, J.S.; Montazami, R.; Hall, L.M.; Green, M.D., *Soft Matter* 2021, Recent Articles ([scripts](https://github.com/hall-polymers/published-work/tree/master/2021-liesen2021influence))
 
-## 2021
+## 2020
 
 - [Ion Conductivity and Correlations in Model Salt-Doped Polymers: Effects of Interaction Strength and Concentration](https://pubs.acs.org/doi/10.1021/acs.macromol.0c00216)  
 Shen, K.-H.; Hall, L.M., *Macromolecules* 2020, 53, 3655–3668 ([scripts](https://github.com/hall-polymers/published-work/tree/master/2020-shen2020ion), repositories:[lammps_bornsolv](https://github.com/hall-polymers/lammps_bornsolv), [pppmd/ion_dynamics](https://github.com/hall-polymers/pppmd/tree/development/kshen))
