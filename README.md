@@ -1,4 +1,26 @@
 # Hall group publications and associated repositories
+## 2021
+
+- [The Influence of Spacer Composition on Thermomechanical Properties, Crystallinity, and Morphology in Ionene Segmented Copolymers](https://doi.org/10.1039/D1SM00501D)
+    Liesen, N.; Wang, M.; Taghavimehr, M.; Lee, J. S.; Montazami, R.; Hall, L.M.; Green, M. D. , Soft Matter 2021, Recent Articles. ([scripts](https://github.com/hall-polymers/published-work/tree/master/2021-liesen2021influence))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 | Year | Authors                                         | Title                                                                                                                    | Journal                                  | Volume/Pages     | Repositories |
 |------|-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------|------------------|--------------|
