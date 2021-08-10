@@ -13,12 +13,12 @@
 
 - [extract_msds.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/extract_msds.py) - python script to extract data from txt files created from msd_ions_NEMD.py, calculate the slopes for ion diffusion constant and mobility, and make corresponding plots
 
-- [transport_analysis.py](ttps://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/transport_analysis.py) - extract data from txt files created from msd_ions_NEMD.py, calculate cations' and anions' diffusion constant, mobility, degree of uncorrelated ion motion, and make corresponding plots
+- [transport_analysis.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/transport_analysis.py) - extract data from txt files created from msd_ions_NEMD.py, calculate cations' and anions' diffusion constant, mobility, degree of uncorrelated ion motion, and make corresponding plots
 
-- [Fs_direct_avg.py](ttps://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/fs_direct_avg.py) - python script to calculate self-intermediate scattering function
+- [Fs_direct_avg.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/fs_direct_avg.py) - python script to calculate self-intermediate scattering function
 
-- [clustrautocorr.py](ttps://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/clustrautocorr.py) - python script to calculate ion cluster autocorrelation function
+- [clustrautocorr.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/clustrautocorr.py) - python script to calculate ion cluster autocorrelation function
 
-- [stretched_exponential_fit.py](ttps://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/stretched_exponential_fit.py) - python script to fit polymer self-intermediate scattering function and ion cluster autocorrelation function with a stretched exponential function to get polymer relaxation rate and cluster relaxation rate, respectively
+- [stretched_exponential_fit.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/stretched_exponential_fit.py) - python script to fit polymer self-intermediate scattering function and ion cluster autocorrelation function with a stretched exponential function to get polymer relaxation rate and cluster relaxation rate, respectively
 
-- [ip_iccorr.py](ttps://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/ip_iccorr.py) - python script to calculate ion pair/cage relaxation rate (data and description are in the Supporting Information)
+- [ip_iccorr.py](https://github.com/hall-polymers/published-work/blob/master/2020-shen2020ion/ip_iccorr.py) - python script to calculate ion pair/cage relaxation rate (data and description are in the Supporting Information)
