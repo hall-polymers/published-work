@@ -3,9 +3,9 @@
 
 - [crw.py](https://github.com/hall-polymers/published-work/blob/master/2018-shen2018diffusion/crw.py) – python script to generate unconfined or confined random walks in the presence of cylindrical, double gyroid, and lamellar surfaces
 
-- [mkinput_cyl_penetrant.py](https://github.com/hall-polymers/published-work/blob/master/2018-shen2018diffusion/mkinput_cyl_penetrant.py) – python script to create an input data file of diblock copolymers in the hexagonaly packed cylinder structure
+- [mkinput_cyl_penetrants.py](https://github.com/hall-polymers/published-work/blob/master/2018-shen2018diffusion/mkinput_cyl_penetrants.py) – python script to create an input data file of diblock copolymers in the hexagonaly packed cylinder structure
 
-- [mkinput_gy_penetrant.py](https://github.com/hall-polymers/published-work/blob/master/2018-shen2018diffusion/mkinput_gy_penetrant.py) – python script to create an input data file of diblock copolymers in the gyroid structure
+- [mkinput_gy_penetrants.py](https://github.com/hall-polymers/published-work/blob/master/2018-shen2018diffusion/mkinput_gy_penetrants.py) – python script to create an input data file of diblock copolymers in the gyroid structure
 
 - [in.diblock_npt](https://github.com/hall-polymers/published-work/blob/master/2018-shen2018diffusion/in.diblock_npt) – LAMMPS script to perform MD simulations (equilibrating diblock copolymers with penetrants)
 
