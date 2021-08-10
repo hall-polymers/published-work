@@ -1,4 +1,4 @@
-## Influence of a nanoparticle on the structure and dynamics of model ionomer melts
+## Influence Of A Nanoparticle On The Structure And Dynamics Of Model Ionomer Melts
 ### To view this publication, click [here](https://pubs.rsc.org/en/Content/ArticleLanding/2018/SM/C8SM00665B#!divAbstract). 
 
 - [in.imers](https://github.com/hall-polymers/published-work/blob/master/2018-sampath2018influence/in.imers) -- LAMMPS script to for ionomer-NP systems w/ colloid potential

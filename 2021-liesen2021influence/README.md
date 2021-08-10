@@ -1,4 +1,4 @@
-## The influence of spacer composition on thermomechanical properties, crystallinity, and morphology in ionene segmented copolymers
+## The Influence Of Spacer Composition On Thermomechanical Properties, Crystallinity, And Morphology In Ionene Segmented Copolymers
 ### To view this publication, click [here](https://pubs.rsc.org/en/content/articlelanding/2021/SM/D1SM00501D). 
 
 - [make_PTMODD_ionene_initial_structure.py](https://github.com/hall-polymers/published-work/blob/master/2021-liesen2021influence/make_ptmodd_ionene_initial_structure.py)

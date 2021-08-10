@@ -1,4 +1,4 @@
-## Impact of ion content and electric field on mechanical properties of coarse-grained ionomers
+## Impact Of Ion Content And Electric Field On Mechanical Properties Of Coarse-Grained Ionomers
 ### To view this publication, click [here](https://aip.scitation.org/doi/10.1063/1.5029260). 
 
 - [deform.imers](https://github.com/hall-polymers/published-work/blob/master/2018-sampath2018impact/deform.imers) -- LAMMPS script to deform systems

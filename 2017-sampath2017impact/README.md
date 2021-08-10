@@ -1,4 +1,4 @@
-## Impact of ionic aggregate structure on ionomer mechanical properties from coarse-grained molecular dynamics simulations
+## Impact Of Ionic Aggregate Structure On Ionomer Mechanical Properties From Coarse-Grained Molecular Dynamics Simulations
 ### To view this publication, click [here](https://aip.scitation.org/doi/10.1063/1.4985904). 
 
 
