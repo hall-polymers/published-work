@@ -7,7 +7,7 @@
 
 - [quench_field.imers](https://github.com/hall-polymers/published-work/blob/master/2018-sampath2018impact/quench_field.imers) -- LAMMPS script to quench systems with field
 
-- [orientation_e2eV2.py](https://github.com/hall-polymers/published-work/blob/master/2018-sampath2018impact/orientation_e2eV2.py) -- python script used with sort.py to calculate orientation parameter
+- [orientation_e2eV2.py](https://github.com/hall-polymers/published-work/blob/master/2018-sampath2018impact/orientation_e2ev2.py) -- python script used with sort.py to calculate orientation parameter
 
 - [sort.py](https://github.com/hall-polymers/published-work/blob/master/2018-sampath2018impact/sort.py) -- python script to sort the LAMMPS trajectory specifically for the orientation parameter script
 
