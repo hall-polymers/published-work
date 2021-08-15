@@ -3,7 +3,7 @@
 ## 2021
 
 - [Quantifying the Effects of Monomer Segment Distributions on Ion Transport in Tapered Block Polymer Electrolytes](https://pubs.acs.org/doi/abs/10.1021/acs.macromol.1c00941)
-Ketkar P.M., Shen, K.-H.; Fan M.; Hall, L.M.; Epps, T.H., III, *Macromolecules* 2021, In Press ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2021-ketkar2021quantifying))
+Ketkar P.M., Shen, K.-H.; Fan M.; Hall, L.M.; Epps, T.H., III, *Macromolecules* 2021, In Press ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2021-ketkar2021quantifying), repository: [lammps_bornsolv](https://github.com/hall-polymers/lammps_bornsolv))
 
 - [The Influence of Spacer Composition on Thermomechanical Properties, Crystallinity, and Morphology in Ionene Segmented Copolymers](https://doi.org/10.1039/D1SM00501D)  
 Liesen, N.; Wang, M.; Taghavimehr, M.; Lee, J.S.; Montazami, R.; Hall, L.M.; Green, M.D., *Soft Matter* 2021, 17, 5508−5523 ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2021-liesen2021influence))
@@ -30,7 +30,7 @@ Ethier, J.G.; Drummy, L. F.; Vaia, R. A.; Hall, L.M., *ACS  Nano* 2019, 13, 1281
 Ethier, J.G.; Hall, L.M., *Macromolecules* 2018, 51, 9878–9889 ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2018-ethier2018structure))
 
 - [Diffusion in Lamellae, Cylinders, and Double Gyroid Block Copolymer Nanostructures](https://pubs.acs.org/doi/10.1021/acsmacrolett.8b00506)  
-Shen, K.-H.; Brown, J.R.; Hall, L.M., *ACS Macro Letters* 2018, 7, 1092–1098 ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2018-shen2018diffusion), repositories: [constrained-random-walk](https://github.com/hall-polymers/constrained-random-walk))
+Shen, K.-H.; Brown, J.R.; Hall, L.M., *ACS Macro Letters* 2018, 7, 1092–1098 ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2018-shen2018diffusion), repository: [constrained-random-walk](https://github.com/hall-polymers/constrained-random-walk))
 
 - [Impact of Ion Content and Electric Field on Mechanical Properties of Coarse-Grained Ionomers](https://doi.org/10.1063/1.5029260)  
 Sampath, J.; Hall, L.M., *The Journal of Chemical Physics* 2018, 149, 163313 ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2018-sampath2018impact))
