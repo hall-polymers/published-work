@@ -1,8 +1,12 @@
 # Hall group publications and associated scripts/repositories
+
 ## 2021
 
+- [Quantifying the Effects of Monomer Segment Distributions on Ion Transport in Tapered Block Polymer Electrolytes](https://pubs.acs.org/doi/abs/10.1021/acs.macromol.1c00941)
+Ketkar P.M., Shen, K.-H.; Fan M.; Hall, L.M.; Epps, T.H., III, *Macromolecules* 2021, In Press ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2021-ketkar2021quantifying))
+
 - [The Influence of Spacer Composition on Thermomechanical Properties, Crystallinity, and Morphology in Ionene Segmented Copolymers](https://doi.org/10.1039/D1SM00501D)  
-Liesen, N.; Wang, M.; Taghavimehr, M.; Lee, J.S.; Montazami, R.; Hall, L.M.; Green, M.D., *Soft Matter* 2021, Recent Articles ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2021-liesen2021influence))
+Liesen, N.; Wang, M.; Taghavimehr, M.; Lee, J.S.; Montazami, R.; Hall, L.M.; Green, M.D., *Soft Matter* 2021, 17, 5508−5523 ([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2021-liesen2021influence))
 
 ## 2020
 
