@@ -1,0 +1,152 @@
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+
+############# Nbb=3 Janani Sampath#################
+            #revised by Patrick Murtha#
+
+################ First run to push monomers/chains off each other####################
+
+
+units		lj
+atom_style	full
+
+
+
+#comment in for resume from push off run
+#read_restart	cheatingstartNbb3Neu43.restart.200000
+
+#comment in for resume from mid-run run
+read_restart	SPO1Nbb350.restart.3000000
+
+#comment out for resume run
+#read_data	SPO1Nbb325.lammpstrj
+
+
+#make z nonperiodic
+change_box all boundary p p f 
+
+  
+
+group  	   	ion type 4
+group		poly type 1 2 3 5 6
+group 		charged type 4 3
+
+
+#comment out for resume run
+#pair_style      soft 1.1226
+#pair_coeff      * * 0.0
+############################
+#variable       prefactor equal 60.0*elapsed/200000
+#fix            softpushoff all adapt 1 pair soft a * * v_prefactor
+
+
+
+bond_style	fene
+bond_coeff	1 30.0 1.5 1.0 1.0
+bond_coeff	2 30.0 1.5 1.0 1.0
+special_bonds	fene
+
+
+
+improper_style none
+
+
+neighbor	.3 bin
+neigh_modify	every 1 delay 0 check yes
+
+
+#fixes
+
+fix 	 fixwallshigh all wall/lj126 zhi EDGE 1.0 1.0 1.1226 	 #pbc yes
+fix 	 fixwallslow all wall/lj126 zlo EDGE 1.0 1.0 1.1226    #pbc yes 
+
+fix   	 fix1 all nvt temp 1.25 1.25 1.0
+
+timestep	0.005
+
+
+thermo		1000
+thermo_style 	custom step temp press ke pe ebond eimp evdwl ecoul elong lx ly lz
+
+
+#comment out for resume run
+#dump		dump1 all custom 1000 pushoff.dump id mol type q xs ys zs ix iy iz
+#restart		200000 2.5thick.restart
+#run	    	200000      ###########remember to change above term
+#unfix		softpushoff
+#undump		dump1
+
+#################Equilibration and coulombics##################
+
+
+#remember to turn change box off for equilibration
+#change_box all z final -60 60   # note this is altered
+
+
+
+kspace_style	pppm/cg 1.0e-4
+
+kspace_modify 	slab 3.0
+
+
+pair_style 	hybrid lj/cut 2.5 lj/cut/coul/long 2.5 10.5 #moded coulomb dist
+pair_modify	shift yes  
+dielectric 	0.028
+
+
+
+unfix 	 fixwallshigh
+unfix 	 fixwallslow 
+
+#fix 	 fixwallshigh all wall/lj126 zhi EDGE 1.0 1.0 1.1226 	 #pbc yes
+#fix 	 fixwallslow all wall/lj126 zlo EDGE 1.0 1.0 1.1226    #pbc yes 
+
+#temporary
+pair_coeff  	* * lj/cut 1.0 1.0
+
+pair_coeff  	1*3 1*3 lj/cut 1.0 1.0
+pair_coeff  	1*2 5*6 lj/cut 1.0 1.0
+pair_coeff	1*2 4 lj/cut 1.0 0.75 1.875
+
+pair_coeff	3 3 lj/cut/coul/long 1.0 1.0
+pair_coeff	3 4 lj/cut/coul/long 1.0 0.75
+pair_coeff	3 5 lj/cut 1.0 1.0
+pair_coeff	3 6 lj/cut 1.5 1.0
+
+pair_coeff	4 4 lj/cut/coul/long 1.0 0.5 
+pair_coeff	4 5 lj/cut 1.0 0.75 1.875
+pair_coeff	4 6 lj/cut 4.5 0.75
+
+pair_coeff 	5 5* lj/cut 1.0 1.0
+ 
+pair_coeff	6 6 lj/cut 2.0 1.0
+unfix 		fix1
+
+#fix		fix2 all npt temp 1.25 1.25 1.0 iso 0 0 100
+
+#fix 		fix3 all npt temp 1.25 1.25 1.0 x 0 0 100 y 0 0 100
+fix 		fix3 all nvt temp 1.25 1.25 1.0
+
+fix         fixcenter all recenter NULL NULL 0.0
+
+#fix         fixzero all momentum 10000 linear 0 0 1 rescale
+
+fix         fixbalance all balance 1000 1.1 shift z 10 1.1
+
+reset_timestep 0
+
+variable f file python.txt
+variable s equal next(f)
+dump dump2 all custom 1000 equil350(1).lammpstrj id mol type q xs ys zs ix iy iz
+dump_modify dump2 every v_s
+dump_modify dump2 append yes
+restart 1000000 equil350(1).restart
+#undump dump2
+run	10000000
