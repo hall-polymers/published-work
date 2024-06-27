@@ -18,6 +18,7 @@
 # Modified: Lisa Hall 1/10
 #Change to box center of 0 (-L/2 to L/2)
 
+#snake
  
 # Took out angle placeholders, binning, salt, overlap check, grafting site LMH 
 # Counterion valence works for integer polymercharges/counterionvalence LMH 
@@ -34,9 +35,14 @@ from numpy import *
 from random import *
 
 #-------------------------------------------------------------------------
- ## 3 beads, 10 monomers, 100 poly = 4000 atoms, 30 bead/monomer
- ## 5 beads, 6 monomers, 111 poly = 3996 atoms, 30 bead/monomer
- ## 7 beads, 4 monomers, 125 poly = 4000 atoms, 28 bead/monomer
+## For precise pendants:
+## Nbb3 nbeads = 4, nxbeads = 1, x_y = 0, nmonomersperpoly = 12
+## Nbb5 nbeads = 6, nxbeads = 1, x_y = 0, nmonomersperpoly = 7
+## Nbb7 nbeads = 8, nxbeads = 1, x_y = 0, nmonomersperpoly = 5
+## For random pendants:
+## Nbb3 nbeads = 2, nxbeads = 1, x_y = 2, nmonomersperpoly = 36
+## Nbb5 nbeads = 2, nxbeads = 1, x_y = 4, nmonomersperpoly = 36
+## Nbb7 nbeads = 2, nxbeads = 1, x_y = 6, nmonomersperpoly = 36
 # INPUT PARAMETERs
 
 ##ADJUSTED DENSITY
@@ -44,15 +50,18 @@ from random import *
 iseed = 9328              # random number seed
 nbeads = 2               # number of beads in monomer (3, 5, 7, or 9 for ionomer project, plus one for pendant group)
 nxbeads = 1       #number of beads in the x segment of only backbone, to be randomly added in
-x_y = 6     #ratio of uncharged x segments per regular 'y' segments with charged monomers
+x_y = 2     #ratio of uncharged x segments per regular 'y' segments with charged monomers
 nmonomersperpoly = 36      # total (including x) number of monomers in polymer (for now use 12,7,5,4)(could use 35, 21, or 15 to make 105 bead/chain)
-npoly =  800                # number of polymers
+npoly =  1600                # number of polymers (800 base)(scaled 2)
 minsep = 1.0                # allowed separation in overlap check
 cisize = 0.5                #counterion diameter/bead diameter; to adjust density
 pendantsize = 1.0           #pendant group diameter/bead diameter; to adjust density and length from bead
 z_c = 1                   # counterion valence                 
 dens = 0.7               # bead density
-neutralizedfraction = 0.5      #fraction of pendant groups that are fully (-1) charged
+
+####### flag ##########
+neutralizedfraction = 0.50      #fraction of pendant groups that are fully (-1) charged
+
 chargeonunneutralized = 0.0     #charge (- on pendant, + on alpha bead) for unneutralized pendants
 bond = 0.97  # bond length. depends on bond potential, but close to 1 is good enough
 
@@ -104,7 +113,9 @@ charge  = {
 #file1.readline()
 
 # files
-INPUT_LAMMPS = open('input.lammps', 'w')
+
+#set file name of input file
+INPUT_LAMMPS = open('inputNbb3Neu50thick2.lammps', 'w')
 ##INPUT_PDB = open('input.pdb', 'w')
 ##INPUT_PSF = open('input.psf', 'w')
 
@@ -133,13 +144,18 @@ ntot = (nmonomers-nxmonomers)*nbeads + nxmonomers*nxbeads + ncounterions
 #eta_t=pi/6*dens=(N1sigma1^3pi/6+N2sigma2^3pi/6+N3sigma2^3pi/6)/vol
 #number of regular beads = total beads- pendants (pendans = npoly*nmonomers)
 vol = (ntot-ncounterions-npendant+npendant*pendantsize**3+ncounterions*cisize**3)/dens
-side = vol**(1./3.)
+
+side = 38.1660063516
+# side size for 800 film
+#side = vol**(1./3.)
+
 dim = ntot+1
 
 # simulation cell parameters
-hx = side
-hy = side
-hz = side
+hx =40      
+hy = 40       
+hz = 57.07138
+
 
 hx2 = hx/2.
 hy2 = hy/2.
@@ -211,13 +227,19 @@ for ix in xrange(npoly):
             typeb[k] = iz
             q[k] = charge[iz]
             molnum[k] = ix + 1
+
+            updowncount=0
+            
             if iy == 0 and seqnum == 1:
                k1 = k
                xc[k] = random()*hx
                yc[k] = random()*hy
-               zc[k] = random()*hz
+               zc[k] = (random()*(hz-20))+10
+                                                           ######################flag####
+                   
             else:
-                # pick random direction; scale to be bond length 
+                # pick random direction; scale to be bond length
+                # contain this in Z directionn cannot be random
                 dx = random()-0.5
                 dy = random()-0.5
                 dz = random()-0.5
@@ -240,6 +262,9 @@ for ix in xrange(npoly):
                     zc[k] = zc[k-1] + dz*pendantsize
 
     # calculate R and R_G
+
+    
+    
     k2= k1 + lengthcurrentpoly
     xcm = sum(xc[k1:k2+1])/lengthcurrentpoly
     ycm = sum(yc[k1:k2+1])/lengthcurrentpoly
@@ -255,7 +280,7 @@ for ix in xrange(npoly):
     rgave = rgave + sqrt(rg2)
 #    print "current rg", rg2
 
-
+#sets wrap
 # PBC #added -hx2 to everything to center box LMH; correct previous version error where it's different (not just the negative) depending on if/elif loop below for y and z
 for k in xrange(1,ntot-ncounterions+1):
     if (xc[k] > hx):
@@ -276,15 +301,26 @@ for k in xrange(1,ntot-ncounterions+1):
     else:
         cy[k] = 0
         yc[k] = yc[k] - hy2
-    if (zc[k] > hz):
+
+    if (zc[k] > hz):  #add check here
         cz[k] = int(zc[k]/hz)
+        print "z above roof", zc[k]
         zc[k] = zc[k] - cz[k]*hz - hz2
     elif (zc[k] < 0.0):
         cz[k] = -int((-zc[k]+hz)/hz)
+        print "z below floor", zc[k]
         zc[k] = zc[k] - cz[k]*hz - hz2
+
+   # elif (zc[k] < (hz2+2) and zc[k] > (hz2-2)):
+    #    print "z in mid wall", zc[k]
+     #   cz[k] = 0
+      #  zc[k] = zc[k] - hz2
+        
     else:
         cz[k] = 0
         zc[k] = zc[k] - hz2
+
+   
 
 
 print "Polymers built."
@@ -329,7 +365,7 @@ for ii in xrange(1,ncounterions+1):
     k = ii + ntot - ncounterions
     xc[k] = random()*hx
     yc[k] = random()*hy
-    zc[k] = random()*hz
+    zc[k] = ((random()*(hz-4))+2)                          ################# flag #############
     typeb[k] = 4
     q[k] = z_c*1.0
     #The following image flag stuff shouldn't be necessary since we put them in the box: just leave it, they will all go to the else:
@@ -357,12 +393,17 @@ for ii in xrange(1,ncounterions+1):
     elif (zc[k] < 0.0):
         cz[k] = -int((-zc[k]+hz)/hz)
         zc[k] = zc[k] - cz[k]*hz - hz2
+        
+   # elif (zc[k] < (hz2+2) and zc[k] > (hz2-2)):
+    #    print "z of counterion in mid wall", zc[k]
+     #   cz[k] = 0
+      #  zc[k] = zc[k] - hz2
     else:
         cz[k] = 0
         zc[k] = zc[k] - hz2
 
 print "Counterions complete."
-
+print "hz is equal to: ", hz
 
 # OUTPUT headers ---------------------------------------------------------------
 
