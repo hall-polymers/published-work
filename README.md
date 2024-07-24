@@ -1,5 +1,23 @@
 # Hall group publications and associated scripts/repositories
 
+## 2024
+
+- [Single-molecule analysis of solvent-responsive mechanically interlocked ring polymers and the effects of nanoconfinement from coarse-grained simulations](https://doi.org/10.1063/5.0191295)
+Becerra D.; Klotz, A.R.; Hall, L.M., *The Journal of Chemical Physics* 2024, 160, 114906--114906
+
+- [Conformational variability of intrinsically isotropic polymers with varying stiffness immersed in nematogenic solvents](https://doi.org/10.1016/j.polymer.2024.126774)
+Becerra D.; Jois, P.R.; Hall, L.M., *Polymer* 2024, 295, 126774
+
+## 2023
+
+- [Impact of Molecular-level Structural Disruption on Relaxation Dynamics of Polymers with End-on and Side-on Liquid Crystal Moieties](https://pubs.acs.org/doi/10.1021/acsnano.3c05354)
+Becerra D.; Xu, Y.; Wang, X.; Hall, L.M., *ACS nano* 2023, 17, 24790--24801
+([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2023-becerra2023impact))
+
+- [Coarse-grained modeling of polymers with end-on and side-on liquid crystal moieties: Effect of architecture](https://doi.org/10.1063/5.0152817)
+Becerra D.; Jois, P.R.; Hall, L.M., *The Journal of Chemical Physics* 2023, 158, 224901-224901
+([**scripts**](https://github.com/hall-polymers/published-work/tree/master/2023-becerra2023coarse), repository: [LAMMPS fix ext_alignment](https://github.com/hall-polymers/SCLCP))
+
 ## 2021
 
 - [Quantifying the Effects of Monomer Segment Distributions on Ion Transport in Tapered Block Polymer Electrolytes](https://pubs.acs.org/doi/abs/10.1021/acs.macromol.1c00941)
