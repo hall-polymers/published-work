@@ -1,0 +1,233 @@
+#!/bin/bash
+###########################################
+#   Input file liquid crystal elastomer   #
+###########################################
+
+units       lj
+
+dimension   3
+
+boundary    p p p
+
+atom_style  hybrid full ellipsoid
+
+log         drop.log
+
+
+
+#read_data	 in-rand20.lammps
+read_restart	 data.rest.20000000
+
+
+
+variable  T equal 2.5
+
+variable  V equal vol
+
+variable  ts equal 0.002
+
+variable  s equal 1000     # sample interval
+
+variable  p equal 2000     # correlation length
+
+variable  d equal ${s}*${p}  # dump interval
+
+variable  tf equal $p*10   #thermo frequency
+
+variable  simulationt equal 10000000
+
+variable  seed equal 904297
+
+
+
+group  backbone type 1
+
+group  side_chains type 2
+
+group  liquid_crystals type 3
+
+
+
+# read parameters
+include in.variables1.5
+
+############################
+#   Bonded interactions
+############################
+
+bond_style  hybrid harmonic
+
+# bond_coeff(id style K r0)
+bond_coeff  1 harmonic ${kb_harm} ${lb_harm}
+
+bond_coeff  2 harmonic ${klco_harm} ${llco_harm} # obl
+
+bond_coeff  3 harmonic ${klcp_harm} ${llcp_harm} # pro
+
+
+angle_style	hybrid cosine orient wlctwist
+
+# angle_coeff(id style K)
+angle_coeff	 1 cosine ${ka_cosine}
+
+# angle_coeff(id style kalign ktwist omega0)
+angle_coeff  2 wlctwist ${kalign} ${ktwist} ${omega0}
+
+# angle_coeff(id style type k_rijveci k_rijvecj k_vecivecj theta1 theta2 phi)
+angle_coeff  3 orient angle_u ${kalign} ${kalign} ${kalign} 0.0 0.0 0.0
+
+angle_coeff  4 orient angle_v ${k1c_v} ${k2c_v} ${kphic_v} 90.0  90.0 180.0
+
+angle_coeff  5 orient angle_u ${k1c_u} ${k2c_u} ${kphic_u} 90.0 0.0 90.0
+
+angle_coeff  6 orient angle_f 0.0 0.0 ${kphilco_f}  90.0 90.0 90.0 # obl
+
+angle_coeff  7 orient angle_u ${k1lco_u} ${k2lco_u} 0.0  0.0 0.0 0.0 # obl
+
+angle_coeff  8 orient angle_v 0.0 0.0 ${kphilcp_v}  90.0 90.0 180.0 # pro
+
+angle_coeff  9 orient angle_u ${k1lcp_u} ${k2lcp_u} 0.0  0.0 90.0 90.0 # pro
+
+############################
+#   Nonbonded interactions
+############################
+
+
+###########################
+#pair_style	soft 3.12246
+#pair_modify	shift yes
+#pair_coeff	* * 60.0
+
+#neighbor	3 bin
+#neigh_modify 	every 10 delay 10
+
+###########################
+
+# gayberne(shift_for_pot_min nyu, myu cutoff)
+pair_style   hybrid lj/cut 2.5 gayberne 1.0 3.0 1.0 4.0
+
+pair_modify	 shift yes
+
+# pair_coeff(type1 type2 unit_egy unit_length depth_x1 depth_y1 depth_z1
+#                                            depth_x2 depth_y2 depth_z2 cutoff)
+pair_coeff   1 1 lj/cut   1.0 1.0
+
+pair_coeff   1 2 lj/cut   1.0 1.0
+
+pair_coeff   1 3 gayberne 1.0 1.0  1.0 1.0 1.0  1.0 1.0 0.2
+
+pair_coeff   2 2 lj/cut   1.0 1.0
+
+pair_coeff   2 3 gayberne 1.0 1.0  1.0 1.0 1.0  1.0 1.0 0.2
+
+pair_coeff   3 3 gayberne 1.0 1.0  1.0 1.0 0.2  1.0 1.0 0.2
+
+
+
+neighbor      0.8 multi
+
+
+
+#velocity  all create ${T} ${seed} rot yes mom yes dist gaussian
+
+
+
+compute   rot all erotate/asphere
+
+variable  myerot equal c_rot
+
+variable  myetot equal (etotal+c_rot)
+
+compute   layers all chunk/atom bin/1d z lower 0.05 units reduced
+
+compute   orient all property/atom quati quatj quatk quatw
+
+compute   shape all property/atom shapex shapey shapez
+
+compute molchunk all chunk/atom molecule
+
+compute msdchunk all msd/chunk molchunk
+
+variable msd1 equal ave(c_msdchunk[1])
+
+variable msd2 equal ave(c_msdchunk[2])
+
+variable msd3 equal ave(c_msdchunk[3])
+
+variable msd4 equal ave(c_msdchunk[4])
+
+compute peratom all stress/atom NULL
+
+compute tauxx all reduce sum c_peratom[1]
+
+compute tauyy all reduce sum c_peratom[2]
+
+compute tauzz all reduce sum c_peratom[3]
+
+compute tauxy all reduce sum c_peratom[4]
+
+compute tauxz all reduce sum c_peratom[5]
+
+compute tauyz all reduce sum c_peratom[6]
+
+
+
+# delete if it is not the first run
+#reset_timestep  0
+
+#fix             1 all nve
+
+#thermo          100
+
+#thermo_style    custom step pe etotal temp
+
+#min_style       cg
+
+#minimize        1e-25 1e-25 1000 1000000
+
+#unfix           1
+
+
+
+dump         1 all custom ${d} traj.lammpstrj id type x y z vx vy vz &
+                         angmomx angmomy angmomz &
+                         c_orient[1] c_orient[2] c_orient[3] c_orient[4] &
+                         c_shape[1] c_shape[2] c_shape[3] xu yu zu #tqx tqy tqz
+
+dump_modify  1 sort id
+
+
+
+reset_timestep 0
+
+
+
+fix  1 all nve/asphere
+
+fix  2 all langevin ${T} ${T} $(100*dt) ${seed} angmom 3.33333 scale 1 3.0
+
+fix  3 all press/berendsen aniso 1.0 1.0 $(1000*dt) dilate all
+
+fix  density all ave/chunk ${s} ${p} ${d} layers density/mass density/number &
+      file profile.density
+
+fix  4 all ave/correlate/long 1 ${d} c_tauxx c_tauyy c_tauzz c_tauxy c_tauxz c_tauyz file stress.correlate ncorr 30
+
+
+
+timestep  ${ts}
+
+thermo  ${tf}
+
+thermo_style  custom step ebond eangle edihed ecoul epair pe ke c_rot  &
+              etotal v_myetot temp press vol v_msd1 v_msd2 v_msd3 v_msd4
+
+thermo_modify norm no
+
+
+
+run  ${simulationt}
+
+
+
+write_restart  data.rest.*

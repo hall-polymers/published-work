@@ -1,0 +1,35 @@
+# Defining model variables for LAMMPS
+
+variable kb_harm    equal  100.00  # Chen et al. 2016
+variable lb_harm    equal    1.00  # Chen et al. 2016
+
+variable klco_harm  equal  100.00
+variable llco_harm  equal    2.00  # new value; McBride et al. 1999 (from real)
+variable klcp_harm  equal  100.00
+variable llcp_harm  equal    1.00
+
+# Dietz et al. 2021; Ethier and Hall 2018: (0-5)
+# Brackley et al. 2014: (15-35)
+variable ka_cosine  equal    1.50
+
+variable kalign     equal   90.00  # Brackley et al. 2014
+variable ktwist     equal   20.00  # Brackley et al. 2014: (10-30)
+variable omega0     equal    0.00  # Brackley et al. 2014
+
+variable k1c_v      equal   90.00  # Lequieu et al. 2019 (for real units)
+variable k2c_v      equal   90.00  # Lequieu et al. 2019 (for real units)
+variable kphic_v    equal   90.00  # Lequieu et al. 2019 (for real units)
+
+variable k1c_u      equal   90.00  # Lequieu et al. 2019 (for real units)
+variable k2c_u      equal   90.00  # Lequieu et al. 2019 (for real units)
+variable kphic_u    equal   90.00  # Lequieu et al. 2019 (for real units)
+
+variable kphilco_f  equal   90.00 # Lequieu et al. 2019 (for real units)
+
+variable k1lco_u    equal   90.00 # Lequieu et al. 2019 (for real units)
+variable k2lco_u    equal   90.00 # Lequieu et al. 2019 (for real units)
+
+variable kphilcp_v  equal   90.00 # Lequieu et al. 2019 (for real units)
+
+variable k1lcp_u    equal   90.00 # Lequieu et al. 2019 (for real units)
+variable k2lcp_u    equal   90.00 # Lequieu et al. 2019 (for real units)
