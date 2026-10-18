@@ -1,0 +1,105 @@
+#----------------parameters--------------------
+variable ts              equal 0.005
+#lj setting
+variable beadsize        equal 1.0
+variable ljstr           equal 1.0
+#angle setting
+variable kappa           equal 100
+variable theta           equal 107
+#bond setting
+variable R0              equal 1.5*${beadsize}   
+variable spcon           equal 30*${ljstr}/(${beadsize}*${beadsize})
+#temp
+variable htemp           equal 1.2
+variable ltemp           equal 1.2
+variable coolingrate     equal 10^(-5)
+variable coolingst       equal (${htemp}-${ltemp})/${coolingrate}/${ts}
+variable spcutoff        equal 1.112*${beadsize}
+variable cutoff          equal 2.5*${beadsize}
+#
+#
+#
+#
+#------------------------------- ---------------
+print ""
+print ""
+print ""
+print ""
+print "timestep:    ${ts}"
+print "beadsize:    ${beadsize}       ljstrength:      ${ljstr}"
+print "bond_R0:     ${R0}             spring constant: ${spcon}"
+print "coolingrate: ${coolingrate}"
+print "coolingstep: ${coolingst}"
+print ""
+print ""
+print ""
+print ""
+###Initialization
+units                lj
+atom_style           full
+read_data            bulk.lammps
+neighbor             1.0 bin
+neigh_modify         every 1 delay 0 check yes
+neigh_modify         one 4000
+thermo_style         custom step temp vol press ke pe ebond eimp evdwl ecoul elong
+thermo               100000
+timestep              ${ts}
+
+
+
+
+
+
+###Force Field 1: Intramolecular interactions turned on and pushoff
+bond_style               fene
+bond_coeff               1 ${spcon}  ${R0}  ${ljstr}  ${beadsize}
+special_bonds            fene
+angle_style              cosine/delta
+angle_coeff              1  ${kappa}   ${theta}
+
+
+###Soft pushoff
+pair_style               soft ${spcutoff}
+pair_coeff               1 1 0.0 ${spcutoff}
+variable                 prefactor1 equal 30.0*elapsed/1000
+fix                      fixs all adapt 1 pair soft a * * v_prefactor1
+fix                      fix1 all nve
+fix                      temp all temp/rescale 1 0.0 ${htemp} 0.05 1.0
+dump                     dump1 all custom 1000 pushoff.lammpstrj id mol type q x y z ix iy iz
+run                      1000
+unfix                    fixs
+unfix                    fix1
+unfix                    temp
+undump                   dump1
+
+min_style                cg
+minimize                 1.0e-6 1.0e-8 100000 10000000
+print "minimization done"
+
+
+pair_style              lj/cut 2.5
+pair_modify             shift yes
+pair_coeff              1 1  ${ljstr} ${beadsize} ${cutoff}
+
+
+###Equilibration        #End setup of calculations to be done during equilibration
+restart                 5000000 diblock.restart
+fix                     fix6 all npt temp ${htemp} ${htemp} 0.5 x 0.0 0.0 5 y 0.0 0.0 5 z 0.0 0.0 5 couple xyz
+dump                    dump3 all custom 100000 3_ht.lammpstrj id mol type q xs ys zs ix iy iz 
+dump_modify             dump3 first yes
+run                     10000
+run                     40000000
+unfix                   fix6
+undump                  dump3
+
+fix                     fix6 all nvt temp ${htemp} ${htemp} 0.5
+dump                    dump3 all custom 100000 4_nvt.lammpstrj id mol type q xs ys zs ix iy iz
+dump_modify             dump3 first yes
+
+run                     40000000
+unfix                   fix6
+undump                  dump3
+
+
+
+
